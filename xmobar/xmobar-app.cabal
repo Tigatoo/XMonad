@@ -1,0 +1,44 @@
+cabal-version:      3.0
+name:               xmobar-app
+version:            0.1.0.0
+synopsis:           xmobar app
+-- description:
+license:            GPL-2.0-or-later
+license-file:       LICENSE
+author:             Endrit
+maintainer:         diti_97@windowslive.com
+-- copyright:
+category:           Graphics
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+
+common warnings
+    ghc-options: -Wall
+
+library xmobar-lib
+    import:           warnings
+    exposed-modules:  XMobar.Config
+    -- other-modules:
+    -- other-extensions:
+    build-depends:
+        base ^>=4.15.1.0,
+        xmobar,
+        process,
+        extra
+    hs-source-dirs:   lib
+    default-language: Haskell2010
+
+executable xmobar-app
+    import:           warnings
+    main-is:          xmobar.hs
+    ghc-options: -Wall -Werror -rtsopts -with-rtsopts=-V0 -threaded
+    -- other-modules:
+    -- other-extensions:
+    build-depends:
+        base ^>=4.15.1.0,
+        xmobar,
+        xmobar-lib
+
+    hs-source-dirs:   app
+    default-language: Haskell2010
