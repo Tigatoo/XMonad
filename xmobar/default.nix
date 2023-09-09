@@ -2,7 +2,7 @@
 mkDerivation {
   pname = "xmobar-app";
   version = "1.0";
-  src = ./app;
+  src = ./.;
   isLibrary = false;
   isExecutable = true;
   libraryHaskellDepends = [ base extra process xmobar ];
