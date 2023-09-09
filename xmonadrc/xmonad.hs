@@ -264,26 +264,29 @@ myEventHook = mempty
 -- Perform an arbitrary action on each internal state change or X event.
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 -- return ()
-myLogHook :: Handle -> X ()
-myLogHook h = dynamicLogWithPP $ xmobarPP
-                { ppOutput = hPutStrLn h
-                , ppCurrent = xmobarColor "#ffb900" "" . wrap "[" "]"
-                  -- Visible but not current workspace
-                , ppVisible = xmobarColor "#3e5c9a" ""
-                  -- Hidden workspace
-                , ppHidden = xmobarColor "#00aeef" ""
-                  -- Hidden workspaces (no windows)
-                , ppHiddenNoWindows = xmobarColor "#8b5bff" ""
-                  -- Title of active window
-                , ppTitle = xmobarColor "#ffb900" "" . shorten 50
-                  -- Separator character
-                , ppSep =  "<fc=" ++ "#fa3935" ++ "> <fn=1>|</fn> </fc>"
-                  -- Urgent workspace
-                , ppUrgent = xmobarColor "#819400" "" . wrap "!" "!"
-                  -- order of things in xmobar
-                , ppOrder  =  \(ws:_:t:_) -> [ws,t] -- \(ws:l:t:ex) -> [ws,l]++ex++[t]
-                }
+pp :: PP
+pp = def { ppCurrent = xmobarColor "#ffb900" "" . wrap "[" "]"
+                       -- Visible but not current workspace
+         , ppVisible = xmobarColor "#3e5c9a" ""
+                       -- Hidden workspace
+         , ppHidden = xmobarColor "#00aeef" ""
+                      -- Hidden workspaces (no windows)
+         , ppHiddenNoWindows = xmobarColor "#8b5bff" ""
+                               -- Title of active window
+         , ppTitle = xmobarColor "#ffb900" "" . shorten 50
+                     -- Separator character
+         , ppSep =  "<fc=" ++ "#fa3935" ++ "> <fn=1>|</fn> </fc>"
+                    -- Urgent workspace
+         , ppUrgent = xmobarColor "#819400" "" . wrap "!" "!"
+                      -- order of things in xmobar
+         , ppOrder  =  \(ws:_:t:_) -> [ws,t] -- \(ws:l:t:ex) -> [ws,l]++ex++[t]
+         }
 
+xmobar :: StatusBarConfig
+xmobar = statusBarProp "xmobar-app" $ pure pp
+
+runXmobar :: XConfig l -> XConfig l
+runXmobar = withSB xmobar
 
 ------------------------------------------------------------------------
 -- Startup hook
@@ -305,10 +308,7 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-  xmproc <- spawnPipe "xmobar-app"
-  xmonad $ ewmhFullscreen . ewmh $ docks $ defaults {
-        logHook = myLogHook xmproc
-  }
+  xmonad . runXmobar . ewmhFullscreen . ewmh $ docks $ defaults
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
