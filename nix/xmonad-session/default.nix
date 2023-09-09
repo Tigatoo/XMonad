@@ -27,7 +27,8 @@
               background-image = ""
             '';
           };
-          defaultSession = "none+xmonad";
+        };
+        defaultSession = "none+xmonad";
         };
       };
       windowManager = {

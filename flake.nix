@@ -9,7 +9,6 @@
   outputs = {
     self,
     nixpkgs,
-    pre-commit-hooks,
     flake-utils,
     ...
   }: let
@@ -28,23 +27,6 @@
         ];
       };
 
-      pre-commit-check = pre-commit-hooks.lib.${system}.run {
-        src = self;
-        hooks = {
-          alejandra = {
-            enable = true;
-            excludes = [
-              "xmobar-app/default.nix"
-              "xmonadrc/default.nix"
-            ];
-          };
-          cabal2nix.enable = true;
-          editorconfig-checker.enable = true;
-          fourmolu.enable = true;
-          hlint.enable = true;
-        };
-      };
-
       shell = pkgs.haskellPackages.shellFor {
         name = "xmonadrc-devShell";
         packages = p:
@@ -61,16 +43,9 @@
           ])
           ++ (with pkgs.haskellPackages; [
             implicit-hie
-          ])
-          ++ (with pre-commit-hooks.packages.${system}; [
-            hlint
-            hpack
-            fourmolu
-            cabal2nix
-            alejandra
           ]);
+
         shellHook = ''
-          ${self.checks.${system}.pre-commit-check.shellHook}
           gen-hie --cabal > hie.yaml
         '';
       };
@@ -81,9 +56,6 @@
       packages = rec {
         default = xmobar-app;
         xmobar-app = pkgs.haskellPackages.xmobar-app;
-      };
-      checks = {
-        inherit pre-commit-check;
       };
     })
     // {
