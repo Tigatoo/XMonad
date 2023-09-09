@@ -26,8 +26,8 @@ mkConfig = pure $
        , allDesktops = True
        , overrideRedirect = True
        , textOutputFormat = Ansi
-       , commands = [Run Com "echo" ["<fn=2>\xf242</fn>"] "baticon" 3600
-                    , Run BatteryP ["BAT0", "ADP1"]
+       , commands = [Run $ Com "echo" ["<fn=2>\xf242</fn>"] "baticon" 3600
+                    , Run $ BatteryP ["BAT0", "ADP1"]
                      ["-t", "<acstatus> (<left>%)",
                      "-L", "10", "-H", "80", "-p", "3",
                      "--", "-O", "", "-i", "", "-o", "",
@@ -36,14 +36,14 @@ mkConfig = pure $
                      "-a", "notify-send -u critical 'Battery running out!!'",
                      "-A", "3"]
                      600
-                    , Run DiskU [("/", "<fn=2>\xf0c7</fn> <free>")] [] 60
-                    , Run Cpu ["-L","3","-H","50",
+                    , Run $ DiskU [("/", "<fn=2>\xf0c7</fn> <free>")] [] 60
+                    , Run $ Cpu ["-L","3","-H","50",
                                "--high","red"] 60
-                    , Run Memory ["-t","Mem: <usedratio>%"] 60
-                    , Run Swap [] 10
-                    , Run Com "uname" ["-s","-r"] "" 36000
-                    , Run Alsa "default" "Master" ["-t", "<fn=2>\xf027</fn> <volume>%","--", "-O", "", "-o", ""]
-                    , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+                    , Run $ Memory ["-t","Mem: <usedratio>%"] 60
+                    , Run $ Swap [] 10
+                    , Run $ Com "uname" ["-s","-r"] "" 36000
+                    , Run $ Alsa "default" "Master" ["-t", "<fn=2>\xf027</fn> <volume>%","--", "-O", "", "-o", ""]
+                    , Run $ Date "%a %b %_d %Y %H:%M:%S" "date" 10
                     , Run UnsafeStdinReader
                     ]
        , sepChar = "%"
