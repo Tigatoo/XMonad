@@ -1,6 +1,5 @@
 {
   pkgs,
-  defaultUser,
   ...
 }: {
   home-manager.users.endrit = {
@@ -15,19 +14,7 @@
       # Enable the X11 windowing system.
       enable = true;
       displayManager = {
-        lightdm = {
-          enable = true;
-          greeters.mini = {
-            enable = true;
-            user = defaultUser;
-            extraConfig = ''
-              [greeter]
-              show-password-label = false
-              [greeter-theme]
-              background-image = ""
-            '';
-          };
-        };
+        lightdm.enable = true;
         defaultSession = "none+xmonad";
       };
       windowManager = {
