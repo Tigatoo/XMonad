@@ -9,6 +9,6 @@ mkDerivation {
   executableHaskellDepends = [ base xmobar ];
   doHaddock = false;
   description = "My Modified xmobar app";
-  license = "unknown";
+  license = lib.licenses.gpl2Plus;
   mainProgram = "xmobar-app";
 }

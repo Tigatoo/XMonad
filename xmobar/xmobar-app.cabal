@@ -18,11 +18,11 @@ common warnings
 
 library xmobar-lib
     import:           warnings
-    exposed-modules:  XMobar.Config
+    exposed-modules:  Xmobar.Config
     -- other-modules:
     -- other-extensions:
     build-depends:
-        base ^>=4.15.1.0,
+        base,
         xmobar,
         process,
         extra
@@ -36,7 +36,7 @@ executable xmobar-app
     -- other-modules:
     -- other-extensions:
     build-depends:
-        base ^>=4.15.1.0,
+        base,
         xmobar,
         xmobar-lib
 
