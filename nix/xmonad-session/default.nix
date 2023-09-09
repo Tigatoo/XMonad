@@ -29,7 +29,6 @@
           };
         };
         defaultSession = "none+xmonad";
-        };
       };
       windowManager = {
         xmonad = {
